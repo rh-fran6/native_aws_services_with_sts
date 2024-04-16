@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ .Values.namespace }}
+  namespace: {{ .Values.namespace }}
+spec:
+  channel: v4
+  name: grafana-operator
+  installPlanApproval: Automatic
+  source: community-operators
+  sourceNamespace: openshift-marketplace

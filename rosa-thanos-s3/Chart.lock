@@ -1,0 +1,6 @@
+dependencies:
+- name: grafana-cr
+  repository: https://rh-mobb.github.io/helm-charts/
+  version: 0.1.1
+digest: sha256:dcce2369b03222faa6d6519caf806fd7de7bf92107a804df93549c5d2100dae2
+generated: "2021-12-21T18:53:43.993634076Z"

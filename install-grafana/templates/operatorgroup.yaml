@@ -1,0 +1,34 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .Values.namespace }}
+  namespace: {{ .Values.namespace }}
+spec:
+  targetNamespaces:
+  - {{ .Values.namespace }}
+
+
+
+
+# cat << EOF | oc delete -f -
+# apiVersion: operators.coreos.com/v1
+# kind: OperatorGroup
+# metadata:
+#   name: metrics-upload-demo
+#   namespace: metrics-upload-demo
+# spec:
+#   targetNamespaces:
+#   - metrics-upload-demo
+# ---
+# apiVersion: operators.coreos.com/v1alpha1
+# kind: Subscription
+# metadata:
+#   name: metrics-upload-demo
+#   namespace: metrics-upload-demo
+# spec:
+#   channel: v4
+#   name: grafana-operator
+#   installPlanApproval: Automatic
+#   source: community-operators
+#   sourceNamespace: openshift-marketplace
+# EOF

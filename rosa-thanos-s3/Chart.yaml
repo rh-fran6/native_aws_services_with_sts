@@ -1,0 +1,12 @@
+apiVersion: v2
+dependencies:
+- name: grafana-cr
+  repository: https://rh-mobb.github.io/helm-charts/
+  version: 0.1.1
+description: A Helm chart for Kubernetes
+home: https://rh-mobb.github.io/helm-charts/
+maintainers:
+- name: rh-mobb
+name: rosa-thanos-s3
+type: application
+version: 0.1.0
