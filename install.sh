@@ -231,7 +231,6 @@ done
 echo ""
 
 # Wait to allow installation to complete
-#!/bin/bash
 
 # Define variables
 DEPLOYMENTS=($SA $SA_NOT)  # List of deployments
@@ -277,7 +276,6 @@ oc get pods -n $NAMESPACE
 
 sleep 45
 
-#!/bin/bash
 
 # Ensure necessary variables are set
 if [[ -z "$NAMESPACE" || -z "$S3_BUCKET" || -z "$SA" || -z "$SA_NOT" ]]; then
