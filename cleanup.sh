@@ -4,10 +4,19 @@
 set -e
 
 # Define variables
-CLUSTER_NAME="dd-rosa"
-NAMESPACE="federated-metrics"
-ROLE_NAME="${CLUSTER_NAME}-thanos-s3"
-POLICY_NAME="${CLUSTER_NAME}-thanos"
+export CLUSTER_NAME="dd-rosa"
+export NAMESPACE="dontest"
+export ROLE_NAME="${CLUSTER_NAME}-demo-s3"
+export POLICY_NAME="${CLUSTER_NAME}-demo-s3"
+export CONFIG_MAP="${NAMESPACE}-configmap"
+export SA="install-with-sts"
+export SA_NOT="install-without-sts"
+export S3_BUCKET="sts-s3-bucket-17042024-demo"
+export TRUST_POLICY_FILE="TrustPolicy.json"
+export POLICY_FILE="s3Policy.json"
+
+## Deleting S3 buckets
+# aws s3 rm s3://$S3_BUCKET
 
 # Function to print error message and exit
 function handle_error {
@@ -38,22 +47,31 @@ aws iam delete-role --role-name "$ROLE_NAME"
 echo "Deleting IAM policy..."
 aws iam delete-policy --policy-arn "$POLICY_ARN"
 
+# Deleting service account to test files upload
+echo "Deleting service accounts to test file uploads..."
 
+for i in $SA $SA_NOT; do
+  oc delete serviceaccount $i -n $NAMESPACE
+done
+
+
+# Delete Deployments $SA and $SA_NOT
+echo "Deleting $SA and $SA_NOT Deployments..."
+for i in $SA $SA_NOT; do 
+  oc delete deployment $i 
+done
+
+
+# Delete configmap
+echo "Deleting $CONFIG_MAP..."
+oc delete configmap $CONFIG_MAP 
 
 # Delete OpenShift project
 echo "Deleting OpenShift project..."
 oc delete project "$NAMESPACE"
 
-# Uninstall Thanos Gateway
-echo "Uninstalling Thanos Gateway..."
-helm uninstall rosa-thanos-s3 -n "$NAMESPACE"
-
-# Uninstall Grafana Operator
-echo "Uninstalling Grafana Operator..."
-helm uninstall grafana-operator
-
-rm -rf s3Policy.json
-rm -rf TrustPolicy.json
+rm -rf $TRUST_POLICY_FILE
+rm -rf $POLICY_FILE
 
 # Completion message
 echo "Completed"
